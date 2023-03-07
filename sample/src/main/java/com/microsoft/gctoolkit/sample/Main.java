@@ -4,14 +4,19 @@ import com.microsoft.gctoolkit.GCToolKit;
 import com.microsoft.gctoolkit.io.GCLogFile;
 import com.microsoft.gctoolkit.io.SingleGCLogFile;
 import com.microsoft.gctoolkit.jvm.JavaVirtualMachine;
-import com.microsoft.gctoolkit.sample.aggregation.CollectionCycleCountsSummary;
+//import com.microsoft.gctoolkit.sample.aggregation.CollectionCycleCountsSummary;
 import com.microsoft.gctoolkit.sample.aggregation.HeapOccupancyAfterCollectionSummary;
-import com.microsoft.gctoolkit.sample.aggregation.PauseTimeSummary;
+import com.microsoft.gctoolkit.sample.aggregation.HeapOccupancyAfterCollectionTimeseries;
+//import com.microsoft.gctoolkit.sample.aggregation.PauseTimeSummary;
+import com.microsoft.gctoolkit.sample.collections.XYDataSet.Point;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.List;
+//import java.util.Optional;
 
 public class Main {
 
@@ -54,6 +59,7 @@ public class Main {
 
         // Retrieves the Aggregation for HeapOccupancyAfterCollectionSummary. This is a time-series aggregation.
         String message = "The XYDataSet for %s contains %s items.\n";
+        String message1 = "The XXX for %s contains %s items.\n";
         machine.getAggregation(HeapOccupancyAfterCollectionSummary.class)
                 .map(HeapOccupancyAfterCollectionSummary::get)
                 .ifPresent(summary -> {
@@ -75,7 +81,20 @@ public class Main {
                         }
                     });
                 });
-
+                machine.getAggregation(HeapOccupancyAfterCollectionTimeseries.class)
+                .map(HeapOccupancyAfterCollectionTimeseries::get)
+                .ifPresent(summary -> {
+                    System.out.printf("Datetime,HeapOccupancyAfterCollection\n");
+                    summary.forEach((gcType, dataSet) -> {
+                        List<Point> points = dataSet.getItems();
+                        for (Point p : points) {
+                            
+                            System.out.printf("%f, %d\n",p.getX(),p.getY());
+                        }
+                        
+                    });
+                });
+        /* *     
         Optional<CollectionCycleCountsSummary> summary = machine.getAggregation(CollectionCycleCountsSummary.class);
         summary.ifPresent(s -> s.printOn(System.out));
         // Retrieves the Aggregation for PauseTimeSummary. This is a com.microsoft.gctoolkit.sample.aggregation.RuntimeAggregation.
@@ -84,7 +103,7 @@ public class Main {
             System.out.printf("Total run time    : %.4f\n", pauseTimeSummary.getTotalPauseTime());
             System.out.printf("Percent pause time: %.2f\n", pauseTimeSummary.getPercentPaused());
         });
-
+*/
     }
 
     private int initialMarkCount = 0;
