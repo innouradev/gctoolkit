@@ -16,5 +16,6 @@ module com.microsoft.gctoolkit.sample {
     provides com.microsoft.gctoolkit.aggregator.Aggregation with
              com.microsoft.gctoolkit.sample.aggregation.HeapOccupancyAfterCollectionSummary,
              com.microsoft.gctoolkit.sample.aggregation.PauseTimeSummary,
+             com.microsoft.gctoolkit.sample.aggregation.HeapOccupancyAfterCollectionTimeseries,
              com.microsoft.gctoolkit.sample.aggregation.CollectionCycleCountsSummary;
 }
