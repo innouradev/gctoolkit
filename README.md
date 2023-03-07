@@ -1,3 +1,11 @@
+# Pre-request
+1. Java JDK
+2. MVN
+3. MVNW
+   
+   * The role of the Aggregator is to capture the JVMEvent objects that are of interest to it and the extract the data of interest and pass it along to an Aggregation.
+ * 
+   * The role of an Aggregation is to collect the data and perform all calculations needed to transform the event data into a form that fits the needs of the client. For example, a GUI may want to display heap occupancy after collection. The Aggregator would capture all GC pause events from which contain reasonable accurate measures of this metric. This information would be collected into an Aggregation. 
 # Microsoft GCToolKit
 
 GCToolkit is a set of libraries for analyzing HotSpot Java garbage collection (GC) log files. The toolkit parses GC log files into discrete events and provides an API for aggregating data from those events. This allows the user to create arbitrary and complex analyses of the state of managed memory in the Java Virtual Machine (JVM) represented by the garbage collection log.
